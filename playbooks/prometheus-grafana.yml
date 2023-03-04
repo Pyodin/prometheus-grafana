@@ -10,3 +10,9 @@
   become: yes
   roles:
   - roles/node-exporter
+
+- name: install nvidia-gpu-exporter
+  hosts: gpu_nodes
+  become: yes
+  roles:
+  - roles/nvidia_gpu_exporter

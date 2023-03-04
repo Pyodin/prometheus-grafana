@@ -1,0 +1,12 @@
+[Unit]
+Description=Nvidia Node Exporter Version {{ nvidia_gpu_exporter_version }}
+After=network-online.target
+
+[Service]
+User={{ nvidia_gpu_exporter_user }}
+Group={{ nvidia_gpu_exporter_group }}
+Type=simple
+ExecStart={{ nvidia_gpu_exporter_bin }}
+
+[Install]
+WantedBy=multi-user.target
