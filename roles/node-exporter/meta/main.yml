@@ -1,7 +1,7 @@
 galaxy_info:
-  author: Macs-Modelling
+  author: Paul Bourhis
   description: Set up a node exporter on a host
-  company: Murex
+  company: Your-company
 
   # If the issue tracker for your role is not on github, uncomment the
   # next line and provide a value

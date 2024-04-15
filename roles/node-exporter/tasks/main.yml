@@ -25,11 +25,18 @@
   when: __check_node_exporter_present.stat.exists == true
   changed_when: false
   register: __get_node_exporter_version
+
+- name: download node exporter
+  get_url:
+    url: "{{ node_exporter_url }}/v{{ node_exporter_version }}/node_exporter-{{ node_exporter_version }}.linux-amd64.tar.gz"
+    dest: "/tmp/node_exporter-{{ node_exporter_version }}.linux-amd64.tar.gz"
+    mode: 0755
+  when: __check_node_exporter_present.stat.exists == false or not __get_node_exporter_version.stdout == node_exporter_version
   
 - name: unzip node exporter if not exist
   unarchive:
-    src: "{{ common_software_folder }}/node_exporter-{{ node_exporter_version }}.linux-amd64.tar.gz"
-    dest: /tmp/
+    src: "/tmp/node_exporter-{{ node_exporter_version }}.linux-amd64.tar.gz"
+    dest: "/tmp/"
     remote_src: yes
     
 - name: move the binary to the final destination

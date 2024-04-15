@@ -1,6 +1,6 @@
 # Monitoring Stack with Ansible
 
-This project uses Ansible roles to automate the deployment of a comprehensive monitoring stack consisting of Grafana, Prometheus, Node Exporter, and Nvidia GPU Exporter. It is designed to streamline the setup process and create a robust monitoring environment for your applications, including specialized monitoring for NVIDIA GPUs.
+This project uses Ansible roles to automate the deployment of a comprehensive monitoring stack consisting of **Grafana**, **Prometheus**, **Node Exporter**, and **Nvidia GPU Exporter**. It is designed to streamline the setup process and create a robust monitoring environment for your applications, including specialized monitoring for NVIDIA GPUs.
 
 ## Features
 
@@ -13,9 +13,8 @@ This project uses Ansible roles to automate the deployment of a comprehensive mo
 ## Getting Started
 
 ### Prerequisites
-
 - Ansible
-- Access to a server or virtual machine
+- Access to a cluster of servers or VMs with SSH access
 
 ### Installation
 

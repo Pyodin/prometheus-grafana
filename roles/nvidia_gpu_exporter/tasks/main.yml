@@ -1,6 +1,6 @@
 ---
 # tasks file for roles/nvidia_gpu_exporter
-- name: check if node exporter exist
+- name: check if nvidia gpu exporter exist
   stat:
     path: "{{ nvidia_gpu_exporter_bin }}"
   register: __check_nvidia_gpu_exporter_present
@@ -20,18 +20,19 @@
     owner: "{{ nvidia_gpu_exporter_user }}"
     group: "{{ nvidia_gpu_exporter_group }}"
 
-- name: create /tmp directory
-  file:
-    path: "/tmp/nvidia_gpu_exporter_{{ nvidia_gpu_exporter_version }}_linux_x86_64/"
-    state: directory
-  when: __check_nvidia_gpu_exporter_present.stat.exists == false
+- name: download nvidia gpu exporter
+  get_url:
+    url: "{{ nvidia_gpu_exporter_url }}/v{{ nvidia_gpu_exporter_version }}/nvidia_gpu_exporter_{{ nvidia_gpu_exporter_version }}_linux_x86_64.tar.gz"
+    dest: "/tmp/nvidia_gpu_exporter_{{ nvidia_gpu_exporter_version }}_linux_x86_64.tar.gz"
+    mode: 0755
+  when: __check_nvidia_gpu_exporter_present.stat.exists == false or not __get_nvidia_gpu_exporter_version.stdout == nvidia_gpu_exporter_version
   
 - name: unzip node exporter if not exist
   unarchive:
-    src: "{{ common_software_folder }}/nvidia_gpu_exporter_{{ nvidia_gpu_exporter_version }}_linux_x86_64.tar.gz"
+    src: "/tmp/nvidia_gpu_exporter_{{ nvidia_gpu_exporter_version }}_linux_x86_64.tar.gz"
     dest: /tmp/nvidia_gpu_exporter_{{ nvidia_gpu_exporter_version }}_linux_x86_64/
     remote_src: yes
-  when: __check_nvidia_gpu_exporter_present.stat.exists == false
+  when: __check_nvidia_gpu_exporter_present.stat.exists == false or not __get_nvidia_gpu_exporter_version.stdout == nvidia_gpu_exporter_version
     
 - name: move the binary to the final destination
   copy:
@@ -41,13 +42,13 @@
     group: "{{ nvidia_gpu_exporter_group }}"
     mode: 0755
     remote_src: yes
-  when: __check_nvidia_gpu_exporter_present.stat.exists == false
+  when: __check_nvidia_gpu_exporter_present.stat.exists == false or not __get_nvidia_gpu_exporter_version.stdout == nvidia_gpu_exporter_version
 
 - name: clean
   file:
     path: /tmp/nvidia_gpu_exporter_{{ nvidia_gpu_exporter_version }}_linux_x86_64/
     state: absent
-  when: __check_nvidia_gpu_exporter_present.stat.exists == false
+  when: __check_nvidia_gpu_exporter_present.stat.exists == false or not __get_nvidia_gpu_exporter_version.stdout == nvidia_gpu_exporter_version
 
 - name: install service
   template:
@@ -56,7 +57,7 @@
     owner: root
     group: root
     mode: 0755
-  notify: reload_daemon_and_restart_nvidia_gpu_exporter
+  notify: reload_daemon_and_restart_nvidia_gpu_exporter 
 
 - meta: flush_handlers
 

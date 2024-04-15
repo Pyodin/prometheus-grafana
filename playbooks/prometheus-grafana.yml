@@ -1,18 +1,18 @@
 - name: install monitoring stack
-  hosts: monitoring_node
-  become: yes
+  hosts: main_node
+  become: true
   roles:
   - roles/prometheus
   - roles/grafana
   
 - name: install node-exporter
-  hosts: exporter_nodes
-  become: yes
+  hosts: all
+  become: true
   roles:
   - roles/node-exporter
 
 - name: install nvidia-gpu-exporter
   hosts: gpu_nodes
-  become: yes
+  become: true
   roles:
   - roles/nvidia_gpu_exporter

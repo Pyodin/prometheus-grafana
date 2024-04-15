@@ -1,6 +1,7 @@
 ---
 # defaults file for roles/nvidia_gpu_exporter
-nvidia_gpu_exporter_version: "1.1.0"
+nvidia_gpu_exporter_version: "1.2.0"
+nvidia_gpu_exporter_url: "https://github.com/utkuozdemir/nvidia_gpu_exporter/releases/download/"
 nvidia_gpu_exporter_bin: /usr/local/bin/nvidia_gpu_exporter
 nvidia_gpu_exporter_user: node-exporter
 nvidia_gpu_exporter_group: "{{ nvidia_gpu_exporter_user }}"

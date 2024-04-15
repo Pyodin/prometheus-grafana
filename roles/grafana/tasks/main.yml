@@ -1,5 +1,26 @@
 ---
 # tasks file for roles/grafana
+
+- name: Import the GPG key
+  rpm_key:
+    key: https://packages.grafana.com/gpg.key
+    state: present
+
+- name: Create /etc/yum.repos.d/grafana.repo 
+  copy:
+    content: |
+      [grafana]
+      name=grafana
+      baseurl=https://rpm.grafana.com
+      repo_gpgcheck=1
+      enabled=1
+      gpgcheck=1
+      gpgkey=https://rpm.grafana.com/gpg.key
+      sslverify=1
+      sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+    dest: /etc/yum.repos.d/grafana.repo
+
+
 - name: install grafana
   yum:
     name: grafana
@@ -20,7 +41,8 @@
   retries: 120
   delay: 1
 
-# - name: change admin password for grafana gui
-#   shell : "grafana-cli admin reset-admin-password {{ grafana_admin_password }}"
-#   register: __command_admin
-#   changed_when: __command_admin.rc !=0
+- name: change admin password for grafana gui
+  shell : "grafana-cli admin reset-admin-password {{ grafana_admin_password }}"
+  register: __command_admin
+  changed_when: __command_admin.rc !=0
+  

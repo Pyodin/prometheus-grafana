@@ -1,6 +1,7 @@
 ---
 # defaults file for roles/prometheus
-prometheus_version: 2.40.0
+prometheus_version: 2.51.2
+prometheus_url: "
 prometheus_bin: "/usr/local/bin/prometheus"
 prometheus_user: prometheus
 prometheus_group: "{{ prometheus_user }}"
